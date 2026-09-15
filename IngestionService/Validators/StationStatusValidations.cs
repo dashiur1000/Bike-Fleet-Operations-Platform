@@ -28,7 +28,7 @@ namespace IngestionService.Validators
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine($"ERROR in StationStatus Worker: {ex.Message} - Inner: {ex.InnerException?.Message}");
             }
             return null;
         }

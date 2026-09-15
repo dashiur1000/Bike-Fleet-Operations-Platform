@@ -13,9 +13,11 @@ namespace IngestionService.Kafka
         private readonly IProducer<string, string> _producer;
         public KafkaProducerService()
         {
+            var bootstrapServers = Environment.GetEnvironmentVariable("KAFKA_BOOTSTRAP_SERVERS") ?? "kafka:9092";
+
             var config = new ProducerConfig
             {
-                BootstrapServers = "kafka:9092"
+                BootstrapServers = bootstrapServers
             };
             _producer = new ProducerBuilder<string, string>(config).Build();
         }

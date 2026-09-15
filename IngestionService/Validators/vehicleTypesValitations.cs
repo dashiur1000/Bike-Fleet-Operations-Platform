@@ -1,11 +1,12 @@
 ﻿using IngestionService.DTOs;
+using System;
 using System.Text.Json;
 
 namespace IngestionService.Validators
 {
     public class vehicleTypesValitations
     {
-        public VehicleTypesDto ValidateAndDeserialize(string vehicleTypeJson)
+        public VehicleTypesRootDto ValidateAndDeserialize(string vehicleTypeJson)
         {
             try
             {
@@ -13,16 +14,21 @@ namespace IngestionService.Validators
                 {
                     return null;
                 }
-                var vehicleTypeDto = JsonSerializer.Deserialize<VehicleTypesDto>(vehicleTypeJson);
-                if (vehicleTypeDto != null
-                    && !string.IsNullOrEmpty(vehicleTypeDto.vehicle_type_id))
+
+                var rootDto = JsonSerializer.Deserialize<VehicleTypesRootDto>(vehicleTypeJson);
+
+                if (rootDto?.data?.vehicle_types != null)
                 {
-                    return vehicleTypeDto;
+                    return rootDto;
+                }
+                else
+                {
+                    Console.WriteLine("Vehicle types parsed, but vehicle_types list inside data was null.");
                 }
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine($"Vehicle Types Validation Error: {ex.Message}");
             }
             return null;
         }
