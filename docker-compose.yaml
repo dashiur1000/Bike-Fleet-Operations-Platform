@@ -37,6 +37,48 @@ services:
       - bike-network
     depends_on:
       - kafka
+    
+  
+  redis:
+    image: redis:alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - bike-network
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: yourpassword
+      MYSQL_DATABASE: BikeFleet
+    ports:
+      - "3306:3306"
+    networks:
+      - bike-network
+
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    networks:
+      - bike-network
+
+  processing-service:
+    build:
+      context: ./ProcessingService
+      dockerfile: Dockerfile
+    container_name: processing-service
+    restart: always
+    depends_on:
+      - kafka
+      - redis
+      - mysql
+      - mongo
+    networks:
+      - bike-network
 
 networks:
   bike-network:
