@@ -80,6 +80,24 @@ services:
     networks:
       - bike-network
 
+  api:
+    build:
+      context: ./aspAPI
+      dockerfile: Dockerfile
+    container_name: csharp-api
+    restart: unless-stopped
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ElasticsearchSettings__Url=http://es:9200
+    ports:
+      - "5268:8080"
+    networks:
+      - bike-network
+    depends_on:
+      - mysql
+      - mongo
+      - redis
+
 networks:
   bike-network:
     driver: bridge
