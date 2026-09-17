@@ -7,6 +7,8 @@ namespace aspAPI.Repositories
     {
         Task<StationStatusDto> GetCurrentStationStatusAsync(string id);
         Task<List<StationsDto>> GetByFilter(int? minAvailableBikes, int? isRenting, int? isReturning);
+        Task<StationsDto?> GetById(string id);
+        Task<List<HistoryDto>> GetStationHistory(DateTime? from, DateTime? to, int? limit);
     }
 }
 

@@ -20,6 +20,16 @@ namespace aspAPI.Controllers
             var result = await _statusRepository.GetByFilter(minAvailableBikes, isRenting, isReturning);
             return Ok(result);
         }
+        [HttpGet("{id}")]
+        public async Task<ActionResult<StationsDto>> GetById(string id)
+        {
+            var result = await _statusRepository.GetById(id);
+            if(result == null)
+            {
+                return NotFound();
+            }
+            return Ok(result);
+        }
         [HttpGet("{id}/status")]
         public async Task<ActionResult<StationStatusDto>> GetStatusById(string id)
         {
@@ -28,6 +38,12 @@ namespace aspAPI.Controllers
             {
                 return NotFound();
             }
+            return Ok(result);
+        }
+        [HttpGet("history")]
+        public async Task<ActionResult<IEnumerable<HistoryDto>>> GetHistory(DateTime? from, DateTime? to, int? limit)
+        {
+            var result = await _statusRepository.GetStationHistory(from, to, limit);
             return Ok(result);
         }
     }

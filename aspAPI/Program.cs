@@ -57,7 +57,6 @@ builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
 
 
 builder.Services.AddScoped<IStatusRepository, StatusRepository>();
-builder.Services.AddScoped<IStationsInfoRepository, StationsInfoRepository>();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection"); builder.Services.AddDbContext<BikeDbContext>(options =>
     options.UseMySql(connectionString, Microsoft.EntityFrameworkCore.ServerVersion.AutoDetect(connectionString))
